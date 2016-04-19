@@ -18,7 +18,10 @@ class ModelView(BaseModelView):
                  category=None, endpoint=None, url=None, static_folder=None,
                  menu_class_name=None, menu_icon_type=None, menu_icon_value=None):
         self._search_fields = []
-
+        if not name and hasattr(model, '_meta') and hasattr(model._meta, 'verbose_name'):
+            name = model._meta.verbose_name
+            if isinstance(name, str):
+                name = name.decode('utf-8')
         super(ModelView, self).__init__(model, name, category, endpoint, url, static_folder,
                                         menu_class_name=menu_class_name,
                                         menu_icon_type=menu_icon_type,
